@@ -53,10 +53,10 @@ func TestStrings_Set(t *testing.T) {
 
 	strings := NewStrings(conn, key)
 
-	//_, err := strings.Del()
+	//_, err := strings.Keys().Del()
 	//assert.NoError(t, err)
-	//
-	bo, err := strings.Exists()
+
+	bo, err := strings.Keys().Exists()
 	fmt.Printf("bo = %v", bo)
 	fmt.Println()
 	assert.NoError(t, err)

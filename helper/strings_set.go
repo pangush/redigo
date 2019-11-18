@@ -16,10 +16,15 @@ package helper
 
 import "encoding/json"
 
+const OPTIONS_EX = "EX"// seconds – 设置键key的过期时间，单位时秒
+const OPTIONS_PX = "PX"// milliseconds – 设置键key的过期时间，单位时毫秒
+const OPTIONS_NX = "NX"// 只有键key不存在的时候才会设置key的值
+const OPTIONS_XX = "XX"// 只有键key存在的时候才会设置key的值
+
 // Set redis strings set value
 func (strings *Strings) SetString(value string, args ...interface{}) error {
-	conn := strings.engine.conn
-	key := strings.engine.key
+	conn := strings.keys.engine.conn
+	key := strings.keys.engine.key
 
 	err := strings.set(conn, key, value, args...)
 	if err != nil {
@@ -30,8 +35,8 @@ func (strings *Strings) SetString(value string, args ...interface{}) error {
 }
 
 func (strings *Strings) SetBytes(value []byte, args ...interface{}) error {
-	conn := strings.engine.conn
-	key := strings.engine.key
+	conn := strings.keys.engine.conn
+	key := strings.keys.engine.key
 
 	err := strings.set(conn, key, value, args...)
 	if err != nil {
@@ -42,8 +47,8 @@ func (strings *Strings) SetBytes(value []byte, args ...interface{}) error {
 }
 
 func (strings *Strings) SetUint64(value uint64, args ...interface{}) error {
-	conn := strings.engine.conn
-	key := strings.engine.key
+	conn := strings.keys.engine.conn
+	key := strings.keys.engine.key
 
 	err := strings.set(conn, key, value, args...)
 	if err != nil {
@@ -54,8 +59,8 @@ func (strings *Strings) SetUint64(value uint64, args ...interface{}) error {
 }
 
 func (strings *Strings) SetStruct(bean interface{}, args ...interface{}) error {
-	conn := strings.engine.conn
-	key := strings.engine.key
+	conn := strings.keys.engine.conn
+	key := strings.keys.engine.key
 
 	jsonBytes, err := json.Marshal(bean)
 

@@ -21,8 +21,8 @@ import (
 
 // GetBytes redis strings get []byte
 func (strings *Strings) GetBytes() ([]byte, error) {
-	conn := strings.engine.conn
-	key := strings.engine.key
+	conn := strings.keys.engine.conn
+	key := strings.keys.engine.key
 
 	if key == "" {
 		return nil, ErrKeyEmpty
@@ -43,8 +43,8 @@ func (strings *Strings) GetBytes() ([]byte, error) {
 
 // GetString redis strings get string
 func (strings *Strings) GetString() (string, error) {
-	conn := strings.engine.conn
-	key := strings.engine.key
+	conn := strings.keys.engine.conn
+	key := strings.keys.engine.key
 
 	value, err := redis.String(strings.get(conn, key))
 	if err != nil {
@@ -55,8 +55,8 @@ func (strings *Strings) GetString() (string, error) {
 }
 
 func (strings *Strings) GetUint64() (uint64, error) {
-	conn := strings.engine.conn
-	key := strings.engine.key
+	conn := strings.keys.engine.conn
+	key := strings.keys.engine.key
 
 	value, err := redis.Uint64(strings.get(conn, key))
 	if err != nil {
@@ -67,8 +67,8 @@ func (strings *Strings) GetUint64() (uint64, error) {
 }
 
 func (strings *Strings) GetStruct(bean interface{}) error {
-	conn := strings.engine.conn
-	key :=  strings.engine.key
+	conn := strings.keys.engine.conn
+	key := strings.keys.engine.key
 
 	value, err := strings.get(conn, key)
 	if err != nil {

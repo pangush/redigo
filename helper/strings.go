@@ -19,15 +19,14 @@ import (
 )
 
 type Strings struct {
-	engine 			*Engine
+	keys 		*Keys
 }
 
 // Strings return the wrapper of redis strings
 func NewStrings(conn redis.Conn, key string) *Strings  {
-	engine := NewEngine(conn, key)
-	strings := &Strings{engine:engine}
-
-	return strings
+	return &Strings{
+		keys: NewKeys(conn, key),
+	}
 }
 
 func (strings *Strings) set(conn redis.Conn, key string, value interface{}, args ...interface{}) error {
@@ -35,7 +34,7 @@ func (strings *Strings) set(conn redis.Conn, key string, value interface{}, args
 		return ErrKeyEmpty
 	}
 
-	newArgs := make([]interface{}, 0)
+	newArgs := make([]interface{}, 0, 5)
 	newArgs = append(newArgs, key)
 	newArgs = append(newArgs, value)
 	newArgs = append(newArgs, args...)
@@ -56,10 +55,6 @@ func (strings *Strings) get(conn redis.Conn, key string) (interface{}, error) {
 	return conn.Do("GET",  key)
 }
 
-func (strings *Strings) Exists() (bool, error) {
-	return strings.engine.Exists()
-}
-
-func (strings *Strings) Del() (bool, error) {
-	return strings.engine.Del()
+func (strings *Strings) Keys() *Keys {
+	return strings.keys
 }
