@@ -15,7 +15,7 @@
 package helper
 
 import (
-	"github.com/gomodule/redigo/redis"
+	"github.com/pangush/redigo/redis"
 )
 
 // Engine is the major struct of redisgo, it means a redis manager
@@ -23,37 +23,15 @@ import (
 type Engine struct {
 	key 	string
 	conn 	redis.Conn
+	//keys	*Keys
 }
 
 func NewEngine(conn redis.Conn, key string) *Engine {
 	return &Engine{
-		key:  key,
-		conn: conn,
+		key:  	key,
+		conn: 	conn,
+		//keys:	&Keys{
+		//	key:key,
+		//},
 	}
-}
-
-func (e *Engine) Exists() (bool, error) {
-	conn := e.conn
-	key := e.key
-
-	if key == "" {
-		return false, ErrKeyEmpty
-	}
-
-	bo, err := redis.Bool(conn.Do("EXISTS",  key))
-
-	return bo, err
-}
-
-func (e *Engine) Del() (bool, error)  {
-	conn := e.conn
-	key := e.key
-
-	if key == "" {
-		return false, ErrKeyEmpty
-	}
-
-	bo, err := redis.Bool(conn.Do("DEL",  key))
-
-	return bo, err
 }
