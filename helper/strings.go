@@ -34,7 +34,7 @@ func (strings *Strings) set(conn redis.Conn, key string, value interface{}, args
 		return ErrKeyEmpty
 	}
 
-	newArgs := make([]interface{}, 0, 5)
+	newArgs := make([]interface{}, 0, len(args) + 2)
 	newArgs = append(newArgs, key)
 	newArgs = append(newArgs, value)
 	newArgs = append(newArgs, args...)

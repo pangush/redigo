@@ -19,13 +19,10 @@ import (
 )
 
 type Hashes struct {
-	engine 			*Engine
+	keys 		*Keys
 }
 
 // newHashes return the wrapper of redis hashes
 func NewHashes(conn redis.Conn, key string) *Hashes  {
-	engine := NewEngine(conn, key)
-	hashes := &Hashes{engine:engine}
-
-	return hashes
+	return &Hashes{keys:NewKeys(conn, key)}
 }
